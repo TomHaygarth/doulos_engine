@@ -1,0 +1,12 @@
+#ignore build folders
+build*/
+.vscode/
+*.code-workspace
+
+#library files
+lib/
+includes/
+
+externals/
+
+imgui.ini
