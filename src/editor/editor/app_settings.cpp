@@ -37,6 +37,39 @@ SAppSettings load_settings(std::string const & file_path)
                 success = false;
             }
             settings.window_height = window_height;
+
+            Data::SJsonObj test_obj;
+            if (success && Data::json_create_obj(test_obj) == false)
+            {
+                success = false;
+            }
+
+            if (success && Data::json_obj_get_obj(json_obj, "testy", test_obj) == false)
+            {
+                success = false;
+            }
+
+            std::string test_string = "";
+            if (success && Data::json_obj_get_string(test_obj, "test_string", test_string) == false)
+            {
+                success = false;
+            }
+            else
+            {
+                DEBUG_LOG(test_string);
+            }
+
+            bool test_bool = true;
+            if (success && Data::json_obj_get_bool(test_obj, "test_bool", test_bool) == false)
+            {
+                success = false;
+            }
+            else
+            {
+                DEBUG_LOG(test_bool ?  "test_bool is true" : "test_bool is false");
+            }
+
+            Data::json_destroy_obj(test_obj);
         }
 
         Data::json_destroy_doc(json_doc);
@@ -62,6 +95,29 @@ bool save_settings(std::string const & file_path, SAppSettings const & settings)
     {
         result = false;
     }
+
+    Data::SJsonObj test_obj;
+    if (result && Data::json_create_obj(test_obj) == false)
+    {
+        result = false;
+    }
+
+    std::string test_string = "Testing string";
+    if (result && Data::json_obj_set_string(json_doc, test_obj, "test_string", test_string) == false)
+    {
+        result = false;
+    }
+
+    bool test_bool = false;
+    if (result && Data::json_obj_set_bool(json_doc, test_obj, "test_bool", test_bool) == false)
+    {
+        result = false;
+    }
+
+    if (result && Data::json_obj_set_obj(json_doc, json_obj, "testy", test_obj) == false)
+    {
+        result = false;
+    }
     
     if (result == true)
     {
@@ -70,6 +126,9 @@ bool save_settings(std::string const & file_path, SAppSettings const & settings)
         std::vector<char> file_data(json_str.begin(), json_str.end());
         result = IO::write_file(file_path, file_data);
     }
+
+    Data::json_destroy_obj(test_obj);
+    Data::json_destroy_doc(json_doc);
     
     return result;
 }
