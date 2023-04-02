@@ -5,6 +5,8 @@ set(editor_src_includes
 
     "editor/app_settings.cpp"
     "editor/app_settings.hpp"
+    "editor/editor_ui.cpp"
+    "editor/editor_ui.hpp"
 
     "main.cpp"
 )
@@ -14,6 +16,7 @@ add_executable(editor_target
     "${editor_src_includes}"
 
     "${imgui_sources}"
+    "${imnodes_sources}"
 )
 
 # Precompile Headers
@@ -70,6 +73,7 @@ if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
     target_compile_options( editor_target PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn )
+    # -Wexit-time-destructors  -Wglobal-constructors
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
     target_compile_options( editor_target PRIVATE /WX /W4 /w44265 /w44061 /w44062 )

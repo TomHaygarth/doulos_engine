@@ -9,13 +9,16 @@
 #include "io/file_helper.hpp"
 #include "utility/logging.hpp"
 
+# define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h"
 #include "util/sokol_imgui.h"
 
 #include "editor/app_settings.hpp"
+#include "editor/editor_ui.hpp"
 
 sg_pass_action pass_action = {};
 SAppSettings app_settings;
+SEditorState * editor_state = nullptr;
 bool app_settings_dirty = false;
 char app_data_folder[] = "/doulos_editor";
 char settings_path[] = "/doulos_editor/pnc_editor.ini";
@@ -64,6 +67,8 @@ void init(void)
 
     simgui_desc_t imgui_desc;
     simgui_setup(&imgui_desc);
+
+    editor_state = new SEditorState();
 }
 
 void frame(void)
@@ -73,11 +78,11 @@ void frame(void)
     frame_desc.height = sapp_height();
     frame_desc.delta_time = sapp_frame_duration();
     frame_desc.dpi_scale = sapp_dpi_scale();
-    
+
     simgui_new_frame(&frame_desc);
 
-//    float g = pass_action.colors[0].value.g + 0.01f;
-//    pass_action.colors[0].value.g = (g > 1.0f) ? 0.0f : g;
+    do_editor_ui(editor_state, &app_settings);
+
     sg_begin_default_pass(&pass_action, sapp_width(), sapp_height());
     simgui_render();
     sg_end_pass();
@@ -87,6 +92,9 @@ void frame(void)
 void cleanup(void)
 {
     try_save_settings();
+
+    delete editor_state;
+    editor_state = nullptr;
 
     simgui_shutdown();
     sg_shutdown();
@@ -149,10 +157,14 @@ sapp_desc sokol_main(int argc, char* argv[])
     app_desc.frame_cb = frame;
     app_desc.cleanup_cb = cleanup;
     app_desc.event_cb = event_cb;
+    app_desc.enable_clipboard = true;
+    app_desc.clipboard_size = 8192;
     app_desc.width = app_settings.window_width;
     app_desc.height = app_settings.window_height;
     app_desc.window_title = "Doulos PnC Editor";
     app_desc.logger.func = slog_func;
+    app_desc.allocator.alloc = nullptr;
+    app_desc.allocator.free = nullptr;
     
     return app_desc;
 }
