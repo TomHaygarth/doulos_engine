@@ -1,6 +1,33 @@
 #include "editor_ui.hpp"
 
+#include "editor/app_settings.hpp"
+
 #include "imgui.h"
+
+void editor_init(SEditorState * editor_state, SAppSettings * app_settings)
+{
+    if (app_settings != nullptr)
+    {
+        // TODO: load up last project
+        if (app_settings->last_project)
+        {
+            editor_state->project_path = app_settings->last_project;
+        }
+    }
+}
+
+void editor_cleanup(SEditorState * editor_state, SAppSettings * app_settings)
+{
+    if (app_settings != nullptr)
+    {
+        // TODO: load up last project
+        if (app_settings->last_project)
+        {
+            editor_state->project_path = app_settings->last_project;
+        }
+    }
+}
+
 
 void do_editor_ui(SEditorState * editor_state, SAppSettings * app_settings)
 {
