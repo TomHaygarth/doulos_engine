@@ -25,7 +25,7 @@ if (BUILD_FOR_DESKTOP)
     "${EXTERNAL_SRC_DIR}/imgui/misc/cpp/imgui_stdlib.cpp"
     "${EXTERNAL_SRC_DIR}/imgui/misc/cpp/imgui_stdlib.h"
     )
-    source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${imgui_sources})
+    source_group(TREE ${EXTERNAL_SRC_DIR} FILES ${imgui_sources})
 
 
     # ImGui node editor (TOO MANY F*#&!$£G issues trying to get this to work)
