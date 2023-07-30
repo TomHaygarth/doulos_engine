@@ -38,38 +38,12 @@ SAppSettings load_settings(std::string const & file_path)
             }
             settings.window_height = window_height;
 
-            Data::SJsonObj test_obj;
-            if (success && Data::json_create_obj(test_obj) == false)
+            // load the last project location
+            std::string last_project;
+            if (success && Data::json_obj_get_string(json_obj, "last_project", last_project))
             {
-                success = false;
+                settings.last_project = last_project;
             }
-
-            if (success && Data::json_obj_get_obj(json_obj, "testy", test_obj) == false)
-            {
-                success = false;
-            }
-
-            std::string test_string = "";
-            if (success && Data::json_obj_get_string(test_obj, "test_string", test_string) == false)
-            {
-                success = false;
-            }
-            else
-            {
-                DEBUG_LOG(test_string);
-            }
-
-            bool test_bool = true;
-            if (success && Data::json_obj_get_bool(test_obj, "test_bool", test_bool) == false)
-            {
-                success = false;
-            }
-            else
-            {
-                DEBUG_LOG(test_bool ?  "test_bool is true" : "test_bool is false");
-            }
-
-            Data::json_destroy_obj(test_obj);
         }
 
         Data::json_destroy_doc(json_doc);
