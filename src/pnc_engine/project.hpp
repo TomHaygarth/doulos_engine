@@ -2,7 +2,10 @@
 
 #include <cinttypes>
 
-struct SProject
+namespace DoulosEngine
 {
-    uint32_t version;
-};
+    struct SProject
+    {
+        uint32_t version;
+    };
+}

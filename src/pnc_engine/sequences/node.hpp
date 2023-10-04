@@ -1,8 +1,10 @@
 #pragma once
 
 #include "inventory/inventory.hpp"
+#include "sequences/requirement.hpp"
 
 #include <cinttypes>
+#include <vector>
 
 namespace DoulosEngine
 {
@@ -20,6 +22,10 @@ namespace DoulosEngine
     {
         uint64_t id = 0;
         ESequenceNodeType const type;
+        std::vector<SNodeVariableRequirement> variable_requirements;
+        std::vector<SNodeObjectRequirement> object_requirements;
+
+        bool visited = false;
 
         SSequenceNodeBase(ESequenceNodeType const node_type) : type(node_type) {}
         virtual ~SSequenceNodeBase() = default;

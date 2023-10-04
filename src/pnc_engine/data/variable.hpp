@@ -19,5 +19,5 @@ namespace DoulosEngine
             int32_t i;
             float f;
         } value;
-    }
+    };
 }

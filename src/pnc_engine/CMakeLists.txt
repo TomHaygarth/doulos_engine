@@ -8,6 +8,18 @@ set (pnc_engine_sources
 
 "pnc_runner.cpp"
 "pnc_runner.hpp"
+
+"actions/action.hpp"
+
+"data/object.hpp"
+"data/variable.hpp"
+
+"inventory/inventory.hpp"
+
+"scenes/scene.hpp"
+
+"sequences/node.hpp"
+"sequences/requirement.hpp"
 )
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${pnc_engine_sources})
 

@@ -19,6 +19,10 @@ add_executable(editor_target
     "${imnodes_sources}"
 )
 
+target_include_directories(editor_target PUBLIC
+    "./"
+)
+
 # Precompile Headers
 # --------------------------------------------------------------------------------
 target_precompile_headers(editor_target PRIVATE

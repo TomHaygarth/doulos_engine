@@ -10,7 +10,9 @@ namespace DoulosEngine
 {
     struct SInventoryVariable
     {
-        std::string name;
+        static constexpr uint32_t const global_bit = 1 << 31;
+
+        uint32_t id = 0;
         SVariable value;
     };
 
@@ -22,7 +24,8 @@ namespace DoulosEngine
 
     struct SInventory
     {
-        std::vector<SInventoryVariable> variables;
+        std::vector<SInventoryVariable> global_variables;
+        std::vector<SInventoryVariable> local_variables;
         std::vector<SInventoryObject> objects;
     };
 }
