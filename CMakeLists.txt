@@ -101,7 +101,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 # Engine and Editor
 # --------------------------------------------------------------------------------
 
-add_subdirectory(../doulos_framework ${CMAKE_BINARY_DIR}/framework)
+add_subdirectory(framework ${CMAKE_BINARY_DIR}/framework)
 
 
 add_subdirectory(src/pnc_engine)
