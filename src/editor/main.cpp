@@ -1,6 +1,6 @@
 
 #define SOKOL_IMPL
-#define SOKOL_GLCORE33
+#define SOKOL_GLCORE
 #include "sokol_gfx.h"
 #include "sokol_app.h"
 #include "sokol_log.h"
@@ -55,18 +55,18 @@ void try_save_settings(void)
 void init(void)
 {
     sg_desc gfx_desc = {};
-    gfx_desc.context = sapp_sgcontext();
     gfx_desc.logger.func = slog_func;
     
     sg_setup(&gfx_desc);
     
     sg_color_attachment_action clear_colour_action ={};
-    clear_colour_action.action=SG_ACTION_CLEAR;
-    clear_colour_action.value={0.0f, 0.0f, 0.0f, 1.0f};
+    clear_colour_action.load_action=SG_LOADACTION_CLEAR;
+    clear_colour_action.store_action=SG_STOREACTION_STORE;
+    clear_colour_action.clear_value={0.0f, 0.0f, 0.0f, 1.0f};
     
     pass_action.colors[0] = clear_colour_action;
 
-    simgui_desc_t imgui_desc;
+    simgui_desc_t imgui_desc = {};
     simgui_setup(&imgui_desc);
 
     editor_state = new SEditorState();
@@ -75,7 +75,7 @@ void init(void)
 
 void frame(void)
 {
-    simgui_frame_desc_t frame_desc;
+    simgui_frame_desc_t frame_desc = {};
     frame_desc.width = sapp_width();
     frame_desc.height = sapp_height();
     frame_desc.delta_time = sapp_frame_duration();
@@ -85,7 +85,11 @@ void frame(void)
 
     do_editor_ui(editor_state, app_settings);
 
-    sg_begin_default_pass(&pass_action, sapp_width(), sapp_height());
+    sg_pass pass = {
+        .action = pass_action,
+        .swapchain = sglue_swapchain()
+    };
+    sg_begin_pass(&pass);
     simgui_render();
     sg_end_pass();
     sg_commit();
@@ -162,7 +166,7 @@ sapp_desc sokol_main(int argc, char* argv[])
 
     app_settings = new SAppSettings(load_settings(full_settings_path));
 
-    sapp_desc app_desc;
+    sapp_desc app_desc = {};
     
     app_desc.init_cb = init;
     app_desc.frame_cb = frame;
@@ -174,8 +178,8 @@ sapp_desc sokol_main(int argc, char* argv[])
     app_desc.height = app_settings->window_height;
     app_desc.window_title = "Doulos PnC Editor";
     app_desc.logger.func = slog_func;
-    app_desc.allocator.alloc = nullptr;
-    app_desc.allocator.free = nullptr;
+    app_desc.allocator.alloc_fn = nullptr;
+    app_desc.allocator.free_fn = nullptr;
     
     return app_desc;
 }

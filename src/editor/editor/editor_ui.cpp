@@ -9,9 +9,9 @@ void editor_init(SEditorState * editor_state, SAppSettings * app_settings)
     if (app_settings != nullptr)
     {
         // TODO: load up last project
-        if (app_settings->last_project)
+        if (app_settings->last_project.hasValue())
         {
-            editor_state->project_path = app_settings->last_project;
+            editor_state->project_path = app_settings->last_project.value();
         }
     }
 }
@@ -21,9 +21,9 @@ void editor_cleanup(SEditorState * editor_state, SAppSettings * app_settings)
     if (app_settings != nullptr)
     {
         // TODO: load up last project
-        if (app_settings->last_project)
+        if (app_settings->last_project.hasValue())
         {
-            editor_state->project_path = app_settings->last_project;
+            editor_state->project_path = app_settings->last_project.value();
         }
     }
 }
