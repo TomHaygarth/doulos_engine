@@ -68,7 +68,7 @@ set (BUILD_RENDERER_DX12 OFF CACHE INTERNAL "" FORCE)
 
 if (BUILD_FOR_DESKTOP)
 
-    set (Renderer "vulkan" CACHE STRING "Which renderer to use [vulkan, opengl, dx12]")
+    set (Renderer "opengl" CACHE STRING "Which renderer to use [vulkan, opengl, dx12]")
 
     if (${Renderer} STREQUAL "vulkan")
         set (BUILD_RENDERER_VULKAN ON CACHE INTERNAL "" FORCE)
